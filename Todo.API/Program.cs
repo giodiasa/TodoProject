@@ -1,4 +1,3 @@
-
 namespace Todo.API
 {
     public class Program
@@ -9,10 +8,14 @@ namespace Todo.API
 
             // Add services to the container.
             builder.AddDatabaseContext();
+            builder.ConfigureJwtOptions();
             builder.AddIdentity();
+            builder.AddAuthentication();
+            //builder.AddHttpContextAccessor();
             builder.AddScopedServices();
             builder.AddControllers();
             builder.AddEndpointsApiExplorer();
+            builder.AddCors();
             builder.AddSwagger();
 
 
@@ -25,7 +28,7 @@ namespace Todo.API
             }
 
             app.UseHttpsRedirection();
-
+            app.UseCors(builder.Configuration.GetValue<string>("Cors:AllowOrigin")!);
             app.UseAuthentication();
             app.UseAuthorization();
 
