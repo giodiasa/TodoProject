@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using System.Linq.Expressions;
 using Todo.Contracts;
 using Todo.Entities;
 using Todo.Models;
@@ -45,6 +46,16 @@ namespace Todo.Service.Implementations
         public async Task<List<TodoForGettingDto>> GetAllTodosAsync()
         {
             var rawData = await _todoRepository.GetAllTodosAsync();
+            if (rawData.Count == 0)
+            {
+                throw new TodoNotFoundException();
+            }
+            var result = _mapper.Map<List<TodoForGettingDto>>(rawData);
+            return result;
+        }
+        public async Task<List<TodoForGettingDto>> GetAllTodosAsync(Expression<Func<TodoEntity, bool>> filter)
+        {
+            var rawData = await _todoRepository.GetAllTodosAsync(filter);
             if (rawData.Count == 0)
             {
                 throw new TodoNotFoundException();

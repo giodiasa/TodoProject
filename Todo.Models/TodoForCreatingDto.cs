@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Todo.Entities;
 
 namespace Todo.Models
@@ -20,5 +22,8 @@ namespace Todo.Models
         public Status Status { get; set; } = Status.Todo;
         [Required]
         public Priority Priority { get; set; } = Priority.Medium;
+        [Required]
+        [ForeignKey(nameof(IdentityUser))]
+        public string UserId { get; set; } = string.Empty;
     }
 }
